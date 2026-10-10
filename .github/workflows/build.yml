@@ -1,0 +1,16 @@
+name: Build and test macOS app
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build native app
+        run: bash Scripts/build.sh
+      - name: Run offline tests
+        run: bash Tests/test.sh

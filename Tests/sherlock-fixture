@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+import sys, time
+username = sys.argv[-1]
+assert sys.argv[1:-1] == ['--no-color', '--print-all', '--timeout', '15']
+if username == 'failure':
+    print('Network setup failed', flush=True)
+    sys.exit(2)
+if username == 'slow':
+    print('[+] Partial: https://example.com/partial', flush=True)
+    time.sleep(30)
+else:
+    print('[*] Checking username fixture on:', flush=True)
+    sys.stdout.write('[+] Example: https://example.com/'); sys.stdout.flush()
+    time.sleep(0.1)
+    print('fixture', flush=True)
+    print('[+] Second: https://example.org/fixture', flush=True)
+    print('[-] Other: Not Found!', flush=True)
+    print('[-] Blocked: Blocked by bot detection', flush=True)
+    print('[*] Search completed with 2 results', flush=True)
