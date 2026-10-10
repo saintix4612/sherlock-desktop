@@ -17,10 +17,9 @@ A small, open-source Mac app for searching public usernames with **Sherlock**, w
 ## Requirements
 
 - macOS 14 or newer.
-- Apple Command Line Tools or Xcode with a Swift compiler.
 - Python 3 and a working Sherlock installation at `~/.local/bin/sherlock`.
 
-The build script targets the architecture of your Mac (Apple silicon or Intel). Apple silicon on macOS 26 has been tested locally; Intel builds and older supported macOS versions have not yet been verified.
+**Apple's developer tools are only needed if you want to compile or edit the app. Regular users can download the ready-made app.** The release contains both Apple silicon and Intel binaries. Apple silicon on macOS 26 has been tested locally; running on Intel and older supported macOS versions has not yet been verified.
 
 ## Install and run
 
@@ -42,7 +41,18 @@ sherlock --version
 
 The app currently looks for `~/.local/bin/sherlock`, pipx's usual executable location. Custom locations are not yet configurable. Installing through `brew install sherlock` alone may put the executable elsewhere.
 
-### 2. Build the Mac app
+### 2. Download the Mac app
+
+1. Open the [latest release](https://github.com/saintix4612/sherlock-desktop/releases/latest).
+2. Download `Sherlock-Desktop-macOS-universal.zip` from Assets.
+3. Unzip it and move `Sherlock Desktop.app` into your Applications folder.
+4. Open the app, enter a username, and click Search.
+
+The download contains the interface. Python and Sherlock must still be installed separately as described above. It does not install them automatically. You can keep the app in your Dock for future searches.
+
+The app is ad-hoc signed, not Developer ID signed or notarized. macOS may block a downloaded build until you allow it through System Settings > Privacy & Security. The underlying Sherlock engine also works on other operating systems; this interface is for Mac.
+
+## Optional: build from source
 
 Install Apple's development tools if needed:
 
@@ -59,9 +69,7 @@ bash Scripts/build.sh
 open 'build/Sherlock Desktop.app'
 ```
 
-You can move the built app to your Applications folder and keep it in your Dock. Keep the separate Sherlock installation installed. From then on, open the app, enter a username, and click Search.
-
-The app is locally ad-hoc signed, not Developer ID signed or notarized. This initial release is distributed as source; no prebuilt download is required. It is a Mac app, even though the underlying Sherlock engine also runs on other operating systems.
+You can move the built app to your Applications folder. Keep the separate Sherlock installation installed.
 
 ## How it works
 
@@ -89,6 +97,14 @@ pipx upgrade sherlock-project
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to help improve the interface.
+
+To build a universal release archive containing Apple silicon and Intel binaries:
+
+```sh
+bash Scripts/release.sh
+```
+
+This rebuilds both architectures, signs the combined app locally, runs the offline tests, and creates `build/Sherlock-Desktop-macOS-universal.zip` with a printed SHA-256 checksum.
 
 ## Credit and licensing
 
